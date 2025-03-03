@@ -84,33 +84,25 @@ async function getAllNews() {
 }
 
 async function getAppleNews() {
-  const res = await fetch(
-    "https://newsapi.org/v2/everything?q=apple&from=2025-03-02&to=2025-03-02&sortBy=popularity&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
-  );
+  const res = await fetch("../apple.json");
   const data = await res.json();
   return data.articles.splice(1, 7);
 }
 
 async function getWallStreetNews() {
-  const res = await fetch(
-    "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
-  );
+  const res = await fetch("../WSJ.json");
   const data = await res.json();
   return data.articles.splice(0, 7);
 }
 
 async function getTeslaNews() {
-  const res = await fetch(
-    "https://newsapi.org/v2/everything?q=tesla&from=2025-02-03&sortBy=publishedAt&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
-  );
+  const res = await fetch("../tesla.json");
   const data = await res.json();
   return data.articles.splice(2, 7);
 }
 
 async function getTechCrunchNews() {
-  const res = await fetch(
-    "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
-  );
+  const res = await fetch("../teachCrunch.json");
   const data = await res.json();
   return data.articles.splice(1, 7);
 }
