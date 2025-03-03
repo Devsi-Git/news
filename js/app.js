@@ -144,8 +144,8 @@ function setNews(newsData) {
                     </section>`
     );
 
-    document.querySelector(
-      ".newsImg" + index
-    ).style.background = `center/cover no-repeat url(${item.urlToImage}) `;
+    // document.querySelector(
+    //   ".newsImg" + index
+    // ).style.background = `center/cover no-repeat url(${item.urlToImage}) `;
   });
 }
