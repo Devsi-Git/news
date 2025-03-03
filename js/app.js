@@ -1,131 +1,132 @@
-const newsContainer = document.querySelector('.news-container')
-const pagesElem = document.querySelectorAll('.pages')
-const inputeElem = document.querySelector('input')
-const searchResultsElem = document.querySelector('.search-results')
-let TheNews = []
-let allNews = []
+const newsContainer = document.querySelector(".news-container");
+const pagesElem = document.querySelectorAll(".pages");
+const inputeElem = document.querySelector("input");
+const searchResultsElem = document.querySelector(".search-results");
+let TheNews = [];
+let allNews = [];
 
-updatePage()
-getAllNews()
+updatePage();
+getAllNews();
 
+inputeElem.addEventListener("input", function () {
+  if (this.value != "") {
+    searchResultsElem.classList.add("show");
+    searchFunc(this.value.toLowerCase());
+  } else {
+    searchResultsElem.classList.remove("show");
+  }
+});
 
-inputeElem.addEventListener('input', function () {
-    if (this.value != '') {
-        searchResultsElem.classList.add('show')
-        searchFunc(this.value.toLowerCase())
-    } else {
-        searchResultsElem.classList.remove('show')
-    }
-})
-
-pagesElem.forEach(item => {
-    item.addEventListener('click', function () {
-
-        pagesElem.forEach(item => {
-            if (item.classList.value.includes('active')) {
-                item.classList.remove('active')
-            }
-        })
-        updatePage(this.dataset.page)
-        this.classList.add('active')
-    })
-})
-
-
+pagesElem.forEach((item) => {
+  item.addEventListener("click", function () {
+    pagesElem.forEach((item) => {
+      if (item.classList.value.includes("active")) {
+        item.classList.remove("active");
+      }
+    });
+    updatePage(this.dataset.page);
+    this.classList.add("active");
+  });
+});
 
 function searchFunc(data) {
-    searchResultsElem.innerHTML = ''
+  searchResultsElem.innerHTML = "";
 
-    let results = allNews.filter(item => {
-        return item.title.toLowerCase().includes(data)
-    })
+  let results = allNews.filter((item) => {
+    return item.title.toLowerCase().includes(data);
+  });
 
-    if (results.length === 0) {
-        searchResultsElem.innerHTML = 'nothing found :('
-    } else {
-        results.forEach(item => {
-            searchResultsElem.insertAdjacentHTML("beforeend",
-                `<div>
+  if (results.length === 0) {
+    searchResultsElem.innerHTML = "nothing found :(";
+  } else {
+    results.forEach((item) => {
+      searchResultsElem.insertAdjacentHTML(
+        "beforeend",
+        `<div>
                 <img src="${item.urlToImage}">
                 <p>${item.title}</p>
-                </div>`)
-        })
-    }
+                </div>`
+      );
+    });
+  }
 }
-
 
 async function updatePage(data) {
-    switch (data) {
-        case 'TechCrunch':
-            setNews(await getTechCrunchNews())
-            break;
-        case 'AppleCompany':
-            setNews(await getAppleNews())
-            break;
-        case 'TeslaFactory':
-            setNews(await getTeslaNews())
-            break;
-        case 'WallStreet':
-            setNews(await getWallStreetNews())
-            break;
-        default:
-            setNews(await getTechCrunchNews())
-            break;
-    }
+  switch (data) {
+    case "TechCrunch":
+      setNews(await getTechCrunchNews());
+      break;
+    case "AppleCompany":
+      setNews(await getAppleNews());
+      break;
+    case "TeslaFactory":
+      setNews(await getTeslaNews());
+      break;
+    case "WallStreet":
+      setNews(await getWallStreetNews());
+      break;
+    default:
+      setNews(await getTechCrunchNews());
+      break;
+  }
 }
 
-
-// get data of API 
+// get data of API
 async function getAllNews() {
-    let data = await getTechCrunchNews()
-    allNews.push(...data)
-    data = await getWallStreetNews()
-    allNews.push(...data)
-    data = await getAppleNews()
-    allNews.push(...data)
-    data = await getTeslaNews()
-    allNews.push(...data)
+  let data = await getTechCrunchNews();
+  allNews.push(...data);
+  data = await getWallStreetNews();
+  allNews.push(...data);
+  data = await getAppleNews();
+  allNews.push(...data);
+  data = await getTeslaNews();
+  allNews.push(...data);
 }
 
 async function getAppleNews() {
-    const res = await fetch('https://newsapi.org/v2/everything?q=apple&from=2024-12-11&to=2024-12-11&sortBy=popularity&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b');
-    const data = await res.json()
-    return data.articles.splice(2, 7)
+  const res = await fetch(
+    "https://newsapi.org/v2/everything?q=apple&from=2025-03-02&to=2025-03-02&sortBy=popularity&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
+  );
+  const data = await res.json();
+  return data.articles.splice(1, 7);
 }
 
 async function getWallStreetNews() {
-    const res = await fetch('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b');
-    const data = await res.json();
-    return data.articles.splice(0, 7);
+  const res = await fetch(
+    "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
+  );
+  const data = await res.json();
+  return data.articles.splice(0, 7);
 }
 
 async function getTeslaNews() {
-    const res = await fetch('https://newsapi.org/v2/everything?q=tesla&from=2024-11-15&sortBy=publishedAt&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b');
-    const data = await res.json();
-    return data.articles.splice(2, 7);
+  const res = await fetch(
+    "https://newsapi.org/v2/everything?q=tesla&from=2025-02-03&sortBy=publishedAt&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
+  );
+  const data = await res.json();
+  return data.articles.splice(2, 7);
 }
 
 async function getTechCrunchNews() {
-    const res = await fetch('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b');
-    const data = await res.json();
-    return data.articles.splice(1, 7);
+  const res = await fetch(
+    "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=95bcf59ccbf64bfebc1410fc6c70ca7b"
+  );
+  const data = await res.json();
+  return data.articles.splice(1, 7);
 }
 
-
 // add data to DOM
- function setNews(newsData) {
-    console.log(newsData)
+function setNews(newsData) {
+  TheNews = newsData;
+  newsContainer.innerHTML = "";
 
-    TheNews =  newsData;
-    newsContainer.innerHTML = ''
+  TheNews.forEach((item, index) => {
+    let date = item.publishedAt.slice(0, item.publishedAt.indexOf("T"));
+    let descrip = item.description.slice(0, 60);
 
-    TheNews.forEach((item, index) => {
-
-        let date = item.publishedAt.slice(0, item.publishedAt.indexOf("T"))
-        let descrip = item.description.slice(0, 60)
-
-        newsContainer.insertAdjacentHTML("beforeend",
-            `       <section class="news-section news${index}" >
+    newsContainer.insertAdjacentHTML(
+      "beforeend",
+      `       <section class="news-section news${index}" >
                         <div class="newsImg${index}">
                         </div>
                         <div>
@@ -148,9 +149,11 @@ async function getTechCrunchNews() {
                                 </i>
                             </div>
                         </div>
-                    </section>`)
+                    </section>`
+    );
 
-        document.querySelector('.newsImg' + index).style.background = `center/cover no-repeat url(${item.urlToImage}) `
-
-    })
+    document.querySelector(
+      ".newsImg" + index
+    ).style.background = `center/cover no-repeat url(${item.urlToImage}) `;
+  });
 }
