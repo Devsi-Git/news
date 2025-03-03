@@ -84,25 +84,25 @@ async function getAllNews() {
 }
 
 async function getAppleNews() {
-  const res = await fetch("../apple.json");
+  const res = await fetch("data/apple.json");
   const data = await res.json();
   return data.articles.splice(1, 7);
 }
 
 async function getWallStreetNews() {
-  const res = await fetch("../WSJ.json");
+  const res = await fetch("data/WSJ.json");
   const data = await res.json();
   return data.articles.splice(0, 7);
 }
 
 async function getTeslaNews() {
-  const res = await fetch("../tesla.json");
+  const res = await fetch("data/tesla.json");
   const data = await res.json();
   return data.articles.splice(2, 7);
 }
 
 async function getTechCrunchNews() {
-  const res = await fetch("../teachCrunch.json");
+  const res = await fetch("data/teachCrunch.json");
   const data = await res.json();
   return data.articles.splice(1, 7);
 }
